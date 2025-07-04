@@ -35,11 +35,16 @@ public class UserDao {
 		return repository.findByGender(UserGender.FEMALE);
 	}
 
-	public Optional<User> findUserById(int id) {
+	public List<User> findUserById(int id) {
 		
-		return 
+		return repository.findUserById(id);
 		
-		return null;
+		
+	}
+
+	public List<User> searchByName(String letters) {
+		
+		return repository.searchByName(letters);
 	}
 
 	

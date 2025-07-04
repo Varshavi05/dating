@@ -92,44 +92,26 @@ public class UserService {
 			mu.setEmail(u.getEmail());
 			mu.setIntrests(u.getIntrests());
 			mu.setGender(u.getGender());
-			
-			
 			mu.setAgeDiff(Math.abs(user.getAge()-u.getAge()));
 			
-			int mic = 0;
-			
 			List<String> intrests1 = user.getIntrests();
-			
 			List<String> intrests2 = user.getIntrests();
-			
+			int mic = 0;
 			for(String  s: intrests1) {
 				if(intrests2.contains(s)) 
 				{
 					mic++;
 				}
 			}
-			
 			mu.setMic(mic);
-			
-			
 			matchingUsers.add(mu);
-			
 		}
 		
-		
-		
-		
-		
-		Comparator<MatchingUser> c = new UserSorting;	
-		Collections.sort(matchingUsers);
-		
+		Comparator<MatchingUser> c = new UserSorting();	
+		Collections.sort(matchingUsers,c);
 		for(MatchingUser mu : matchingUsers)
 			System.out.println(mu);
-		
-		
 		List<MatchingUser> result = new ArrayList<>();
-		
-		
 		for(MatchingUser mu : matchingUsers) {
 			if(top==0) {
 				break;
@@ -138,14 +120,25 @@ public class UserService {
 				top--;
 			}
 		}
-		
-		
-		
-		
-		
-		
-		
 		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
+	public ResponseEntity<?> searchByName(String letters) {
+		
+		List<User> users = userDao.searchByName("%"+letters+"%");
+		
+		if(users.isEmpty())
+		{
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found with letters :"+letters);
+			
+		}else {
+			
+			return ResponseEntity.status(HttpStatus.OK).body(users);
+		}
+		
+		
+		
+		
 	}
 		
 		
